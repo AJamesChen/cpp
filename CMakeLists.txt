@@ -19,6 +19,9 @@ target_include_directories(codility
 
 include(CTest)
 
+add_library(binary_tree lib/binary_tree.cpp)
+target_include_directories(binary_tree PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
 if(BUILD_TESTING)
     include(cmake/dependencies.cmake)
 
@@ -34,6 +37,10 @@ if(BUILD_TESTING)
 
     include(GoogleTest)
     gtest_discover_tests(codility_tests)
+
+    add_executable(binary_tree_tests tests/test_binary_tree.cpp)
+    target_link_libraries(binary_tree_tests PRIVATE binary_tree GTest::gtest_main)
+    gtest_discover_tests(binary_tree_tests PROPERTIES TIMEOUT 15)
 endif()
 
 if(BUILD_BENCHMARKS)
